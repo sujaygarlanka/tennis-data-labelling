@@ -11,6 +11,28 @@ from PyQt5.QtGui import QPixmap, QIntValidator, QKeySequence
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QCheckBox, QFileDialog, QDesktopWidget, QLineEdit, \
     QRadioButton, QShortcut
 from xlsxwriter.workbook import Workbook
+from functools import cmp_to_key
+
+
+def cmp_items(a, b):
+
+    a_name = a.split(".")[0]
+    a_mid = a.split(".")[1]
+    a_num = int(a_mid.split("_")[-1])
+
+    b_name = b.split(".")[0]
+    b_mid = b.split(".")[1]
+    b_num = int(b_mid.split("_")[-1])
+
+    if a_name == b_name:
+        if a_num < b_num:
+            return -1
+        else:
+            return 1
+    elif a_name > b_name:
+        return 1
+    else:
+        return -1
 
 
 def get_img_paths(dir, extensions=('.jpg', '.png', '.jpeg')):
@@ -26,7 +48,8 @@ def get_img_paths(dir, extensions=('.jpg', '.png', '.jpeg')):
         if filename.lower().endswith(extensions):
             img_paths.append(os.path.join(dir, filename))
 
-    img_paths.sort()
+    img_paths = sorted(img_paths, key=cmp_to_key(cmp_items))
+    #print (img_paths)
     return img_paths
 
 
