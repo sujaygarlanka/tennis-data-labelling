@@ -6,13 +6,18 @@ import os
 
 def extractImages(pathIn, pathOut,fps, beg, end):
 
+    start = beg
+
     vidcap = cv2.VideoCapture(pathIn)
 
     fps_actual = vidcap.get(cv2.CAP_PROP_FPS)
-    print(fps_actual)
 
-    if fps > fps_actual: 
+    if fps > fps_actual:
         fps = fps_actual
+
+    print("fps:", fps_actual)
+    print("Number of frames:", (end - beg) * fps)
+
 
     frameRate = (1.0 / fps) #//it will capture image in each 0.5 second
     #print (frameRate)
@@ -30,7 +35,7 @@ def extractImages(pathIn, pathOut,fps, beg, end):
 
         tail = os.path.split(pathIn)[1]
         if hasFrames:
-            cv2.imwrite(f"{pathOut}/{tail}_{beg}_{end}_{frameRate}.jpg", image)     # save frame as JPG file
+            cv2.imwrite(f"{pathOut}/{tail}_{fps}_{start}_{count}.jpg", image)     # save frame as JPG file
 
 if __name__=="__main__":
     a = argparse.ArgumentParser()
@@ -40,6 +45,4 @@ if __name__=="__main__":
     a.add_argument("--beg", type=int, help="beginning")
     a.add_argument("--end", type=int, help="ending")
     args = a.parse_args()
-    print(args)
     extractImages(args.vid, args.out,args.fps,args.beg,args.end)
-
