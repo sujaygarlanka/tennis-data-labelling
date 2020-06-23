@@ -45,4 +45,11 @@ if __name__=="__main__":
     a.add_argument("--beg", type=int, help="beginning")
     a.add_argument("--end", type=int, help="ending")
     args = a.parse_args()
+
+    tail = os.path.split(args.vid)[1]
+
+    file = open(r"video_log.txt","a")
+    file.write(f"\n{tail}_{args.beg}_{args.end}_{args.fps}")
+    file.close()
+
     extractImages(args.vid, args.out,args.fps,args.beg,args.end)
