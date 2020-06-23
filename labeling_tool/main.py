@@ -15,17 +15,31 @@ from functools import cmp_to_key
 
 
 def cmp_items(a, b):
-
     a_name = a.split(".")[0]
     a_mid = a.split(".")[1]
     a_num = int(a_mid.split("_")[-1])
+    a_start = int(a_mid.split("_")[-2])
 
     b_name = b.split(".")[0]
     b_mid = b.split(".")[1]
     b_num = int(b_mid.split("_")[-1])
+    b_start = int(b_mid.split("_")[-2])
+
+    print(type(b_name), ",", type(b_start), type(b_mid), type(b_num), type(b_start))
+    print(b_name, ",", b_start, b_mid, b_num, b_start)
+
+    print(type(a_mid))
+    print(type(a_num))
+
+    print("-")
 
     if a_name == b_name:
-        if a_num < b_num:
+        if a_start == b_start:
+            if a_num < b_num:
+                return -1
+            else:
+                return 1
+        elif a_start < b_start:
             return -1
         else:
             return 1
@@ -49,7 +63,7 @@ def get_img_paths(dir, extensions=('.jpg', '.png', '.jpeg')):
             img_paths.append(os.path.join(dir, filename))
 
     img_paths = sorted(img_paths, key=cmp_to_key(cmp_items))
-    #print (img_paths)
+    print (img_paths)
     return img_paths
 
 
