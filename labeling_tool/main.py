@@ -2,7 +2,7 @@ import csv
 import os
 import shutil
 import sys
-import uuid 
+import uuid
 
 import numpy as np
 from PyQt5 import QtWidgets
@@ -26,6 +26,7 @@ def get_img_paths(dir, extensions=('.jpg', '.png', '.jpeg')):
         if filename.lower().endswith(extensions):
             img_paths.append(os.path.join(dir, filename))
 
+    img_paths.sort()
     return img_paths
 
 
