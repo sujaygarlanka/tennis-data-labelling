@@ -58,7 +58,7 @@ net.load_state_dict(torch.load("./cifar_net.pth"))
 
 outputs = net(images)
 
-predicted = torch.max(outputs, 1)
+_, predicted = torch.max(outputs, 1)
 
 print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
                               for j in range(4)))
