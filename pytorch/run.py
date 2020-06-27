@@ -43,15 +43,15 @@ transform = transforms.Compose(
 
 testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                        download=True, transform=transform)
-testloader = torch.utils.data.DataLoader(testset, batch_size=4,
+testloader = torch.utils.data.DataLoader(testset, batch_size=10,
                                          shuffle=False, num_workers=2)
 
 dataiter = iter(testloader)
 images, labels = dataiter.next()
 
 # print images
-imshow(torchvision.utils.make_grid(images))
-print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
+#imshow(torchvision.utils.make_grid(images))
+print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(10)))
 
 net = Net()
 net.load_state_dict(torch.load("./cifar_net.pth"))
@@ -61,4 +61,4 @@ outputs = net(images)
 _, predicted = torch.max(outputs, 1)
 
 print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
-                              for j in range(4)))
+                              for j in range(10)))
