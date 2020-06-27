@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.optim as optim
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -66,9 +67,6 @@ class Net(nn.Module):
 
 
 net = Net()
-
-import torch.optim as optim
-
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 

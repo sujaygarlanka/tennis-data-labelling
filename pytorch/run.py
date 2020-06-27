@@ -6,8 +6,6 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 
-# functions to show an image
-
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -27,7 +25,7 @@ class Net(nn.Module):
         x = self.fc3(x)
         return x
 
-
+# function to show an image
 def imshow(img):
     img = img / 2 + 0.5     # unnormalize
     npimg = img.numpy()
@@ -50,15 +48,27 @@ dataiter = iter(testloader)
 images, labels = dataiter.next()
 
 # print images
-#imshow(torchvision.utils.make_grid(images))
-print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(10)))
+# imshow(torchvision.utils.make_grid(images))
+# print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
 
 net = Net()
 net.load_state_dict(torch.load("./cifar_net.pth"))
 
 outputs = net(images)
-
 _, predicted = torch.max(outputs, 1)
 
-print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
-                              for j in range(10)))
+# print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
+#                               for j in range(4)))
+
+correct = 0
+total = 0
+with torch.no_grad():
+    for data in testloader:
+        images, labels = data
+        outputs = net(images)
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+print('Accuracy of the network on the 10000 test images: %d %%' % (
+    100 * correct / total))
